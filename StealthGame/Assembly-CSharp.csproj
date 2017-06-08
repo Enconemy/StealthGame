@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AStar\Grid.cs" />
+     <Compile Include="Assets\Scripts\AStar\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\Enemy\DetectPlayer.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
