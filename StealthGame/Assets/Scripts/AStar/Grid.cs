@@ -7,8 +7,12 @@ public class Grid : MonoBehaviour {
 	public int Width = 10;
 	public int Length = 10;
 	public float NodeSize = 1;
+	public bool ShowNodes = false;
+	public GameObject Prefab;
 
+	private bool oldShowNodes = false;
 	private Node[,] nodes;
+	private GameObject[] visualNodes;
 
 	// Use this for initialization
 	void Start () {
@@ -25,11 +29,49 @@ public class Grid : MonoBehaviour {
 				nodes [i, j] = new Node(new Vector2(i,j), new Vector2(offset.x + i * NodeSize, offset.y - j * NodeSize), b);
 			}
 		}
+
+
+		visualNodes = new GameObject[Width * Length];
+		for (int i = 0; i < Width * Length; i++) {
+			visualNodes [i] = Instantiate (Prefab);
+			//visualNodes [i].AddComponent<MeshRenderer> ();
+			visualNodes [i].GetComponent<MeshRenderer> ().enabled = true;
+			//visualNodes [i].GetComponent<MeshRenderer> ().enabled = true;
+		}
+		showNodes (ShowNodes);
 	}
-	
+
+	private void showNodes(bool show)
+	{
+		if (show == true) {
+			for (int k = 0; k < visualNodes.Length; k++) { // Loops GameObject array visualNodes.
+				for (int i = 0; i < Width; i++) { // Loops Node array nodes, first field.
+					for (int j = 0; j < Length; j++) { // Loops Node array nodes, second field.
+						bool enabled = visualNodes[k].GetComponent<MeshRenderer> ().enabled;
+						Vector2 position = nodes [i, j].WorldPosition;
+						visualNodes [k].transform.position = new Vector3 (position.x, 0.0f, position.y);
+						visualNodes [k].transform.localScale *= 0.9f;
+						visualNodes [k].GetComponent<MeshRenderer> ().enabled = true;
+						enabled = visualNodes[k].GetComponent<MeshRenderer> ().enabled;
+					}
+				}
+			}
+		} else {
+		for (int k = 0; k < Width * Length; k++) { // Loops GameObject array visualNodes
+				visualNodes [k].GetComponent<MeshRenderer> ().enabled = false;
+			}
+		}
+			
+	}
+
 	// Update is called once per frame
 	void Update () {
-		
+		/*
+		if (oldShowNodes != ShowNodes) {
+			showNodes (ShowNodes);
+		}
+		oldShowNodes = ShowNodes;
+		*/
 	}
 }
 
@@ -51,5 +93,4 @@ public class Node
 		Walkable = walkAble;
 		Parent = null;
 	}
-
 }
