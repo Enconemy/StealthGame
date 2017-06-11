@@ -6,16 +6,16 @@ public class Grid : MonoBehaviour {
 
 	public int Width = 10;
 	public int Length = 10;
-	public float NodeSize = 1;
+	public float NodeSize = 1.0f;
 	public bool ShowNodes = false;
 	public GameObject Prefab;
 
 	private bool oldShowNodes = false;
-	private Node[,] nodes;
+	private Node[,]nodes;
 	private GameObject[] visualNodes;
 
 	// Use this for initialization
-	void Start () {
+	private void Start () {
 		nodes = new Node[Width, Length];
 		Vector2 offset;
 		offset.x = -(Width * NodeSize) / 2;
@@ -25,8 +25,7 @@ public class Grid : MonoBehaviour {
 		{
 			for (int j = 0; j < Length; j++) 
 			{
-				bool b = true;
-				nodes [i, j] = new Node(new Vector2(i,j), new Vector2(offset.x + i * NodeSize, offset.y - j * NodeSize), b);
+				nodes [i, j] = new Node(new Vector2(i,j), new Vector2(offset.x + i * NodeSize, offset.y - j * NodeSize), true);
 			}
 		}
 
@@ -34,44 +33,79 @@ public class Grid : MonoBehaviour {
 		visualNodes = new GameObject[Width * Length];
 		for (int i = 0; i < Width * Length; i++) {
 			visualNodes [i] = Instantiate (Prefab);
-			//visualNodes [i].AddComponent<MeshRenderer> ();
-			visualNodes [i].GetComponent<MeshRenderer> ().enabled = true;
-			//visualNodes [i].GetComponent<MeshRenderer> ().enabled = true;
+			visualNodes [i].GetComponent<MeshRenderer> ().enabled = false;
+		
 		}
 		showNodes (ShowNodes);
 	}
-
-	private void showNodes(bool show)
-	{
+	private void showNodes(bool show) {
 		if (show == true) {
-			for (int k = 0; k < visualNodes.Length; k++) { // Loops GameObject array visualNodes.
-				for (int i = 0; i < Width; i++) { // Loops Node array nodes, first field.
-					for (int j = 0; j < Length; j++) { // Loops Node array nodes, second field.
-						bool enabled = visualNodes[k].GetComponent<MeshRenderer> ().enabled;
-						Vector2 position = nodes [i, j].WorldPosition;
-						visualNodes [k].transform.position = new Vector3 (position.x, 0.0f, position.y);
-						visualNodes [k].transform.localScale *= 0.9f;
-						visualNodes [k].GetComponent<MeshRenderer> ().enabled = true;
-						enabled = visualNodes[k].GetComponent<MeshRenderer> ().enabled;
-					}
+			int n = 0;
+			for (int i = 0; i < Width; i++) { // Loops Node array nodes, first field.
+				for (int j = 0; j < Length; j++) { // Loops Node array nodes, second field.
+					Vector2 position = nodes [i, j].WorldPosition;
+					visualNodes [n].transform.position = new Vector3 (position.x, 0.0f, position.y);
+					visualNodes [n].transform.localScale *= 0.9f;
+					visualNodes [n].GetComponent<MeshRenderer> ().enabled = true;
+					n++;
 				}
 			}
 		} else {
-		for (int k = 0; k < Width * Length; k++) { // Loops GameObject array visualNodes
-				visualNodes [k].GetComponent<MeshRenderer> ().enabled = false;
+			for (int i = 0; i < Width * Length; i++) { // Loops GameObject array visualNodes
+					visualNodes [i].GetComponent<MeshRenderer> ().enabled = false;
 			}
 		}
 			
 	}
 
+	public List<Node> GetNeighbours(Node node){
+		List<Node> neighbours = new List<Node>();
+		float x = node.GridPosition.x;
+		float y = node.GridPosition.y;
+
+		if (x > 0) {
+			//Left
+			neighbours.Add(nodes[x - 1, y]);
+		}
+		if (x > 0 && y > 0) {
+			//Left Top
+			neighbours.Add(nodes[x - 1, y + 1 ]);
+		}
+		if (y > 0) {
+			//Top
+			neighbours.Add(nodes[x, y + 1]);
+		}
+		if (x < Width - 1 && y > 0) {
+			//Right Top
+			neighbours.Add(nodes[x + 1, y + 1]);
+		}
+		if (x < Width - 1) {
+			//Right
+			neighbours.Add(nodes[x + 1, y]);
+		}
+		if (x < Width - 1 && y < Length - 1) {
+			//Right Bottom
+			neighbours.Add(nodes[x + 1, y - 1]);
+		}
+		if (y < Length - 1) {
+			//Bottom
+			neighbours.Add(nodes[x, y - 1]);
+		}
+		if (x > 0 && y < Length - 1) {
+			//Left Bottom
+			neighbours.Add(nodes[x - 1, y - 1]);
+		}
+			
+
+		return neighbours;
+	}
+
 	// Update is called once per frame
-	void Update () {
-		/*
+	private void Update () {
 		if (oldShowNodes != ShowNodes) {
 			showNodes (ShowNodes);
 		}
 		oldShowNodes = ShowNodes;
-		*/
 	}
 }
 
