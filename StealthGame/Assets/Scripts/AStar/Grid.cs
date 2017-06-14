@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,8 +61,8 @@ public class Grid : MonoBehaviour {
 
 	public List<Node> GetNeighbours(Node node){
 		List<Node> neighbours = new List<Node>();
-		float x = node.GridPosition.x;
-		float y = node.GridPosition.y;
+		int x = (int) node.GridPosition.x;
+		int y = (int) node.GridPosition.y;
 
 		if (x > 0) {
 			//Left
@@ -106,6 +107,12 @@ public class Grid : MonoBehaviour {
 			showNodes (ShowNodes);
 		}
 		oldShowNodes = ShowNodes;
+	}
+
+	// Only for testing
+	public Node GetNode(int x, int y)
+	{
+		return nodes [x, y];
 	}
 }
 

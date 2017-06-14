@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\AStar\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\AStar\PathFinding.cs" />
      <Compile Include="Assets\Scripts\Enemy\DetectPlayer.cs" />
+     <Compile Include="Assets\Scripts\Player\Player.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

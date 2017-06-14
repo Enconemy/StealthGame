@@ -1,10 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AStar\PathFinding.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\Player.cs">
     <Files>
-      <File FileName="Assets\Scripts\Enemy\DetectPlayer.cs" Line="29" Column="4" />
-      <File FileName="Assets\Scripts\AStar\Grid.cs" Line="61" Column="13" />
-      <File FileName="Assets\Scripts\AStar\PathFinding.cs" Line="28" Column="4" />
+      <File FileName="Assets\Scripts\Enemy\DetectPlayer.cs" Line="13" Column="21" />
+      <File FileName="Assets\Scripts\AStar\Grid.cs" Line="112" Column="21" />
+      <File FileName="Assets\Scripts\AStar\PathFinding.cs" Line="82" Column="3" />
+      <File FileName="Assets\Scripts\Player\Player.cs" Line="8" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
