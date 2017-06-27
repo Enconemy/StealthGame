@@ -80,6 +80,8 @@ public class PathFinding : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		grid = GameObject.Find ("A*").GetComponent<Grid> ();
+		openList = new List<Node> ();
+		closeList = new List<Node> ();
 	}
 	
 	// Update is called once per frame

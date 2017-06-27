@@ -64,10 +64,10 @@ public class Grid : MonoBehaviour {
 		int x = (int) node.GridPosition.x;
 		int y = (int) node.GridPosition.y;
 
-		if (x > 0) {
-			//Left
-			neighbours.Add(nodes[x - 1, y]);
+		if (x > 0 && x < Width - 1 && y > 0 && y < Length - 1) {
+			neighbours.Add(nodes[x - 1, y - 1]);
 		}
+		/*
 		if (x > 0 && y > 0) {
 			//Left Top
 			neighbours.Add(nodes[x - 1, y + 1 ]);
@@ -96,7 +96,7 @@ public class Grid : MonoBehaviour {
 			//Left Bottom
 			neighbours.Add(nodes[x - 1, y - 1]);
 		}
-			
+			*/
 
 		return neighbours;
 	}
