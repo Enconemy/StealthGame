@@ -25,15 +25,14 @@ public class Player : MonoBehaviour {
 			//Vector3 pos = camera.ScreenToWorldPoint (Input.mousePosition);
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			Vector3 pos = ray.origin + (ray.direction * Camera.main.transform.position.y);
-			Debug.Log (pos);
 
-			WalkPath (pos);
-
+			//WalkPath (pos);
 		}
 		if (path.Count > 0) {
-			Vector2 tmpPos = path [0].WorldPosition;
+			Vector3 targetPos = path [0].WorldPosition;
+			targetPos.y = 1.0f;
 			// tranforming Vector2 to Vector3
-			Vector3 targetPos = new Vector3 (tmpPos.x, 1.0f, tmpPos.y);
+			//Vector3 targetPos = new Vector3 (tmpPos.x, 1.0f, tmpPos.y);
 
 			if (targetPos != transform.position) {
 				transform.position = Vector3.MoveTowards (transform.position, targetPos, speed * Time.deltaTime);
@@ -46,9 +45,9 @@ public class Player : MonoBehaviour {
 	void WalkPath(Vector3 targetPos)
 	{
 		if (targetPos.x < ((grid.Width * grid.NodeSize) / 2) - grid.NodeSize / 2 && targetPos.z < ((grid.Length * grid.NodeSize) / 2) - grid.NodeSize / 2) {
-			Debug.Log ("Inside");
+			//Debug.Log ("Inside");
 		} else {
-			Debug.Log ("Outside");
+			//Debug.Log ("Outside");
 		}
 
 		float size = grid.NodeSize / 2;
@@ -56,20 +55,21 @@ public class Player : MonoBehaviour {
 		for (int i = 0; i < grid.Length; i++) {
 			for (int j = 0; j < grid.Width; j++) {
 				//node = grid.GetNode (i, j);
-				Vector3 pos = grid.GetNode (i, j).GridPosition;
+				Vector3 pos = grid.GetNode (i, j).WorldPosition;
 				if (targetPos.x < pos.x + size && targetPos.x > pos.x - size && targetPos.z < pos.z + size && targetPos.z > pos.z - size) {
+					//Debug.Log("Node gefunden " + pos);
+					//Debug.Log ("Target " + targetPos);
 					node = grid.GetNode (i, j);
 					goto finished;
 				}
 			}
-
 		}
+
 		finished:
 		if (node != null) {
-			Node start = grid.GetNode (0, 0);//new Node ();
-			Node end = node; //grid.GetNode(99,99);
+			Node start = grid.GetNode (0, 0);
+			Node end = node;
 			path = pathFinder.FindingPath (start, end);
 		}
-
 	}
 }

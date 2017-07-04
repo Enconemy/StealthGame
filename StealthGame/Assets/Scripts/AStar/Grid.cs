@@ -26,7 +26,7 @@ public class Grid : MonoBehaviour {
 		{
 			for (int j = 0; j < Length; j++) 
 			{
-				nodes [i, j] = new Node(new Vector2(i,j), new Vector2(offset.x + i * NodeSize, offset.y - j * NodeSize), true);
+				nodes [i, j] = new Node(new Vector2(i,j), new Vector3(offset.x + i * NodeSize, 0.0f, offset.y - j * NodeSize), true);
 			}
 		}
 
@@ -44,8 +44,9 @@ public class Grid : MonoBehaviour {
 			int n = 0;
 			for (int i = 0; i < Width; i++) { // Loops Node array nodes, first field.
 				for (int j = 0; j < Length; j++) { // Loops Node array nodes, second field.
-					Vector2 position = nodes [i, j].WorldPosition;
-					visualNodes [n].transform.position = new Vector3 (position.x, 0.0f, position.y);
+					//Vector2 position = nodes [i, j].WorldPosition;
+					//visualNodes [n].transform.position = new Vector3 (position.x, 0.0f, position.y);
+					visualNodes [n].transform.position = nodes[i, j].WorldPosition;
 					visualNodes [n].transform.localScale *= 0.9f;
 					visualNodes [n].GetComponent<MeshRenderer> ().enabled = true;
 					n++;
@@ -63,20 +64,21 @@ public class Grid : MonoBehaviour {
 		List<Node> neighbours = new List<Node>();
 		int x = (int) node.GridPosition.x;
 		int y = (int) node.GridPosition.y;
-
+		/*
 		if (x > 0 && x < Width - 1 && y > 0 && y < Length - 1) {
 			neighbours.Add(nodes[x - 1, y - 1]);
 		}
-		/*
-		if (x > 0 && y > 0) {
+		*/
+
+		if (x > 0 && y < Length - 1) {
 			//Left Top
 			neighbours.Add(nodes[x - 1, y + 1 ]);
 		}
-		if (y > 0) {
+		if (y < Length - 1) {
 			//Top
 			neighbours.Add(nodes[x, y + 1]);
 		}
-		if (x < Width - 1 && y > 0) {
+		if (x < Width - 1 && y < Length - 1) {
 			//Right Top
 			neighbours.Add(nodes[x + 1, y + 1]);
 		}
@@ -84,19 +86,18 @@ public class Grid : MonoBehaviour {
 			//Right
 			neighbours.Add(nodes[x + 1, y]);
 		}
-		if (x < Width - 1 && y < Length - 1) {
+		if (x < Width - 1 && y > 0) {
 			//Right Bottom
 			neighbours.Add(nodes[x + 1, y - 1]);
 		}
-		if (y < Length - 1) {
+		if (y > 0) {
 			//Bottom
 			neighbours.Add(nodes[x, y - 1]);
 		}
-		if (x > 0 && y < Length - 1) {
+		if (x > 0 && y > 0) {
 			//Left Bottom
 			neighbours.Add(nodes[x - 1, y - 1]);
 		}
-			*/
 
 		return neighbours;
 	}
@@ -120,14 +121,14 @@ public class Grid : MonoBehaviour {
 public class Node
 {
 	public Vector2 GridPosition{ get; private set;}
-	public Vector2 WorldPosition{ get; private set;}
+	public Vector3 WorldPosition{ get; private set;}
 	public bool Walkable { get; set;}
 	public int GCost { get; set;}
 	public int HCost { get; set;}
 	public int FCost { get{ return HCost + GCost; } }
 	public Node Parent { get; set;}
 
-	public Node(Vector2 gridPosition, Vector2 worldPosition, bool walkAble)
+	public Node(Vector2 gridPosition, Vector3 worldPosition, bool walkAble)
 	{
 		GridPosition = gridPosition;
 		WorldPosition = worldPosition;
@@ -135,3 +136,37 @@ public class Node
 		Parent = null;
 	}
 }
+
+
+
+
+/*
+ * if (x > 0 && y > 0) {
+			//Left Top
+			neighbours.Add(nodes[x - 1, y + 1 ]);
+		}
+		if (y > 0) {
+			//Top
+			neighbours.Add(nodes[x, y + 1]);
+		}
+		if (x < Width - 1 && y > 0) {
+			//Right Top
+			neighbours.Add(nodes[x + 1, y + 1]);
+		}
+		if (x < Width - 1) {
+			//Right
+			neighbours.Add(nodes[x + 1, y]);
+		}
+		if (x < Width - 1 && y < Length - 1 && y > 0) {
+			//Right Bottom
+			neighbours.Add(nodes[x + 1, y - 1]);
+		}
+		if (y < Length - 1) {
+			//Bottom
+			neighbours.Add(nodes[x, y - 1]);
+		}
+		if (x > 0 && y < Length - 1) {
+			//Left Bottom
+			neighbours.Add(nodes[x - 1, y - 1]);
+		}
+*/

@@ -18,7 +18,11 @@ public class DetectPlayer : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col){
 		if(col.tag == "Player"){
-			detected = true;
+			Vector3 direction = col.transform.position - transform.position;
+			//int layerMask = ~(2);
+			bool noVision = Physics.Raycast (transform.position, direction, Vector3.Magnitude (direction)); //layerMask);
+			if(!noVision)
+				detected = true;
 		}
 	}
 

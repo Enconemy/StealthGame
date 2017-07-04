@@ -11,29 +11,33 @@ public class PathFinding : MonoBehaviour {
 
 
 	public List<Node> FindingPath(Node startNode, Node endNode){
-		openList.Add (startNode);
+		//openList.Add (startNode);
 		Node currentNode = startNode;
-		openList.Add (startNode);
 
 
-		while(currentNode != endNode){
+		while(currentNode.GridPosition != endNode.GridPosition){
 			List<Node> neighbours = grid.GetNeighbours(currentNode);
-			for(int i =0; i < neighbours.Count; i++){
+			for(int i = 0; i < neighbours.Count; i++){
 				if (neighbours [i].Walkable == false) {
 					closeList.Add(neighbours[i]);
 				}
 				if(closeList.Contains(neighbours[i]) == false){
-					openList.Add(neighbours[i]);
-					//neighbours [i].Parent = currentNode;
+					int gCost = currentNode.GCost + distance;
+
+					if (neighbours [i].GCost == neighbours [i].FCost) {
+						neighbours [i].HCost = manhattanDistance (neighbours [i], endNode);
+					}
+					if (openList.Contains (neighbours [i]) == true) {
+						if(gCost < neighbours[i].GCost){
+							neighbours [i].GCost = gCost;
+							neighbours [i].Parent = currentNode;
+						}		
+					} else {
+						neighbours [i].GCost = gCost;
+						neighbours [i].Parent = currentNode;
+						openList.Add(neighbours[i]);
+					}
 				}
-
-				int gCost = currentNode.GCost + distance;
-				if(gCost < neighbours[i].GCost){
-					neighbours [i].GCost = gCost;
-					neighbours [i].Parent = currentNode;
-				}
-
-
 			}
 			closeList.Add (currentNode);
 			openList.Remove (currentNode);
@@ -67,8 +71,14 @@ public class PathFinding : MonoBehaviour {
 		Node n = endNode;
 		path.Add (n);
 		while (n.Parent != null) {
+			if (path.Count > 200) {
+				Debug.Log ("");
+			}
 			path.Add (n.Parent);
 		}
+		openList = new List<Node>();
+		closeList = new List<Node> ();
+
 		return path;
 	}
 
