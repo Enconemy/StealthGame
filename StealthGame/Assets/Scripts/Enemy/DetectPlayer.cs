@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DetectPlayer : MonoBehaviour {
 
-	private bool detected = false;
+	public bool detected = false;
 	private float counter = 0;
 	private float detectionTime = 2f;
 	private GameObject player;
