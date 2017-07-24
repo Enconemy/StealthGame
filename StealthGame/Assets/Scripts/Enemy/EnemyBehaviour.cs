@@ -11,6 +11,10 @@ public class EnemyBehaviour : MonoBehaviour {
 	public GameObject wayB;
 	public float speed = 5.0f;
 	private StateContext stateCon;
+	public float rotationSpeed = 10.0f;
+	public float chaseBonus = 0.2f;
+	public float ArrestingCountdown { get; set; }
+	public float ArrestingTime = 300.0f;
 	// Use this for initialization
 	void Start () {
 
@@ -36,25 +40,33 @@ public class EnemyBehaviour : MonoBehaviour {
 
 
 	public void Patrol(){
-		
 		if (currentWay.transform.position != transform.position) {
+			transform.forward = Vector3.Normalize(currentWay.transform.position - transform.position);
 			transform.position = Vector3.MoveTowards (transform.position, currentWay.transform.position, speed * Time.deltaTime);
 		} else if (currentWay == wayA) {
 			currentWay = wayB;
 		} else {
 			currentWay = wayA;
 		}
+		//Debug.Log ("Patrol");
 	}
 
 	public void Search(){
-		
+		transform.Rotate (new Vector3(0.0f, rotationSpeed * Time.deltaTime, 0.0f));
+		//Debug.Log ("Search");
 	}
 
 	public void Chase(){
-		
+		transform.forward = Vector3.Normalize(p.transform.position - transform.position);
+		transform.position = Vector3.MoveTowards (transform.position, p.transform.position, (speed + chaseBonus) * Time.deltaTime);
+		//Debug.Log ("Chase");
 	}
 
 	public void Attack(){
-		
+		ArrestingCountdown += Time.deltaTime;
+		if (ArrestingCountdown >= ArrestingTime) {
+			Debug.Log ("Arrested!");
+		}
+		//Debug.Log ("Attack");
 	}
 }

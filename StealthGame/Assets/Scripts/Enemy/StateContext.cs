@@ -30,7 +30,7 @@ public class StateContext{
 
 	public void Update(){
 		
-		/*
+
 		if (enemy.InRange == true) {
 			CurrentState.HandleInput (E_Input.ReachPlayer, this);
 
@@ -56,7 +56,7 @@ public class StateContext{
 			CurrentState.HandleInput (E_Input.OutOfRange, this);
 
 		}
-		*/
+
 		currentState.Update (enemy);
 	}
 }

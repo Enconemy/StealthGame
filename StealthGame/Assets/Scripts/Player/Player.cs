@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	public float speed = 10;
 	private Grid grid;
 
+
 	private PathFinding pathFinder;
 	private List<Node> path;
 	//private Camera camera;
