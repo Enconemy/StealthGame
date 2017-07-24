@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿public class ChaseState : iEnemyState {
 
-public class ChaseState : iEnemyState {
-
-	public void OnStateEntry (EnemyBehaviour enemy){
-
-	}
+	public void OnStateEntry (EnemyBehaviour enemy){}
 
 	public void HandleInput (E_Input input, StateContext stateCon){
-		switch (input) {
+		switch (input)
+        {
 		case E_Input.ReachPlayer:
 			stateCon.CurrentState = EnemyStates.Attack;
 			break; 
@@ -22,7 +18,4 @@ public class ChaseState : iEnemyState {
 	public void Update (EnemyBehaviour enemy){
 		enemy.Chase ();
 	}
-
-
-
 }

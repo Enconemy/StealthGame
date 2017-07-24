@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-
-public interface iEnemyState  {
+﻿public interface iEnemyState  {
 	void OnStateEntry (EnemyBehaviour enemy);
 	void HandleInput (E_Input input, StateContext stateCon); 
 

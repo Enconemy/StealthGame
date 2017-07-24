@@ -1,45 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DetectPlayer : MonoBehaviour {
 
-	public bool detected = false;
+    public GameObject Enemy;
+    public bool Detected { get; private set; }
+
 	private float counter = 0;
-	private float detectionTime = 2f;
 	private GameObject player;
 	private float rotationSpeed = 10.0f;
 
-	public GameObject Enemy;
-
 	void Start(){
 		player = GameObject.FindGameObjectWithTag("Player");
+        Detected = false;
 	}
 
 	void OnTriggerEnter(Collider col){
 		if(col.tag == "Player"){
 			Vector3 direction = col.transform.position - transform.position;
-			//int layerMask = ~(2);
+//??????? Testing with layer mask. Necessary???
+            //int layerMask = ~(2);
 			bool noVision = Physics.Raycast (transform.position, direction, Vector3.Magnitude (direction)); //layerMask);
 			if(!noVision)
-				detected = true;
+				Detected = true;
 		}
 	}
 
 
 	void OnTriggerExit(Collider col){
 		if(col.tag == "Player"){
-			detected = false;
+			Detected = false;
 		}
 	}
 
 	void Update(){
 		
-		if (detected == true){
+		if (Detected == true){
 			counter += Time.deltaTime;
-			if (counter >= detectionTime) {
-				//Debug.Log ("YOU GOT DETECTED");
-			}
 
 			Vector3 direction = player.transform.position - Enemy.transform.position;
 			direction.Normalize();
@@ -47,15 +43,11 @@ public class DetectPlayer : MonoBehaviour {
 			// Check if enemy is already pointing towards the player, with a treshold.
 			if (dot < 0.95f) {
 				Enemy.transform.Rotate(new Vector3(0.0f, rotationSpeed * Time.deltaTime, 0.0f));
-				if (Vector3.Dot (transform.forward, direction) < dot) {
+                // Check if enemy rotates in the correct direction.
+                if (Vector3.Dot (transform.forward, direction) < dot) {
 					Enemy.transform.Rotate(new Vector3(0.0f, -rotationSpeed * Time.deltaTime * 2.0f, 0.0f));
 				}
 			}
-		} else{
-			counter = 0;
-		}
-			
+		} 
 	}
-
-
 }
