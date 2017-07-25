@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour {
@@ -13,58 +12,70 @@ public class PathFinding : MonoBehaviour {
 	public List<Node> FindingPath(Node startNode, Node endNode){
 		//openList.Add (startNode);
 		Node currentNode = startNode;
+        openList.Add(currentNode);
 
 
 		while(currentNode.GridPosition != endNode.GridPosition){
-			List<Node> neighbours = grid.GetNeighbours(currentNode);
-			for(int i = 0; i < neighbours.Count; i++){
-				if (neighbours [i].Walkable == false) {
-					closeList.Add(neighbours[i]);
-				}
-				if(closeList.Contains(neighbours[i]) == false){
-					int gCost = currentNode.GCost + distance;
+            if (openList.Count <= 0)
+                 break;           
 
-					if (neighbours [i].GCost == neighbours [i].FCost) {
-						neighbours [i].HCost = manhattanDistance (neighbours [i], endNode);
-					}
-					if (openList.Contains (neighbours [i]) == true) {
-						if(gCost < neighbours[i].GCost){
-							neighbours [i].GCost = gCost;
-							neighbours [i].Parent = currentNode;
-						}		
-					} else {
-						neighbours [i].GCost = gCost;
-						neighbours [i].Parent = currentNode;
-						openList.Add(neighbours[i]);
-					}
-				}
-			}
-			closeList.Add (currentNode);
-			openList.Remove (currentNode);
+            List<Node> neighbours = grid.GetNeighbours(currentNode);
+            for (int i = 0; i < neighbours.Count; i++)
+            {
+                if (neighbours[i].Walkable == false)
+                {
+                    closeList.Add(neighbours[i]);
+                }
+                else
+                {
+                    if (closeList.Contains(neighbours[i]) == false)
+                    {
+                        int gCost = currentNode.GCost + distance;
 
-			/*
-			for (int i = 0; i < openList.Count; i++) {
-				openList [i].GCost = openList [i].Parent.GCost + distance;
-				openList [i].HCost = manhattanDistance (openList[i], endNode);
-			}
-			*/
+                        if (neighbours[i].GCost == neighbours[i].FCost)
+                        {
+                            neighbours[i].HCost = manhattanDistance(neighbours[i], endNode);
+                        }
+                        if (openList.Contains(neighbours[i]) == true)
+                        {
+                            if (gCost < neighbours[i].GCost)
+                            {
+                                neighbours[i].GCost = gCost;
+                                neighbours[i].Parent = currentNode;
+                            }
+                        }
+                        else
+                        {
+                            neighbours[i].GCost = gCost;
+                            neighbours[i].Parent = currentNode;
+                            openList.Add(neighbours[i]);
+                        }
+                    }
+                }
+                closeList.Add(currentNode);
+                openList.Remove(currentNode);
 
-			if (openList.Count <= 0) {
-				break;
-			}
-			int lowestFCost = openList [0].FCost;
-			int index = 0;
-			for (int i = 0; i < openList.Count; i++) {
-				
-				if (openList [i].FCost < lowestFCost) {
-					lowestFCost = openList [i].FCost;
-					index = i;
-				}
-			}
-			//closeList.Add (openList[index]);
-			//openList.Remove (openList[index]);
+                /*
+                for (int i = 0; i < openList.Count; i++) {
+                    openList [i].GCost = openList [i].Parent.GCost + distance;
+                    openList [i].HCost = manhattanDistance (openList[i], endNode);
+                }
+                */
 
-			currentNode = openList [index];
+            }
+
+            // Searching new currentNode
+            int lowestFCost = openList[0].FCost;
+            int index = 0;
+            for (int i = 0; i < openList.Count; i++)
+            {
+                if (openList[i].FCost < lowestFCost)
+                {
+                    lowestFCost = openList[i].FCost;
+                    index = i;
+                }
+            }
+		    currentNode = openList [index];
 		}
 
 		List<Node> path = new List<Node> ();

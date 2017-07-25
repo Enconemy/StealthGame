@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-	public float speed = 10;
+	public float Speed = 10;
 	private Grid grid;
 
 
@@ -16,7 +15,6 @@ public class Player : MonoBehaviour {
 	void Start () {
 		pathFinder = GameObject.Find ("A*").GetComponent<PathFinding> ();
 		grid = GameObject.Find ("A*").GetComponent<Grid> ();
-		//camera = Camera.main.GetComponent<Camera>();
 		path = new List<Node> ();
 	}
 	
@@ -27,7 +25,7 @@ public class Player : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			Vector3 pos = ray.origin + (ray.direction * Camera.main.transform.position.y);
 
-			//WalkPath (pos);
+			WalkPath (pos);
 		}
 		if (path.Count > 0) {
 			Vector3 targetPos = path [0].WorldPosition;
@@ -36,7 +34,7 @@ public class Player : MonoBehaviour {
 			//Vector3 targetPos = new Vector3 (tmpPos.x, 1.0f, tmpPos.y);
 
 			if (targetPos != transform.position) {
-				transform.position = Vector3.MoveTowards (transform.position, targetPos, speed * Time.deltaTime);
+				transform.position = Vector3.MoveTowards (transform.position, targetPos, Speed * Time.deltaTime);
 			} else {
 				path.RemoveAt (0);
 			}
