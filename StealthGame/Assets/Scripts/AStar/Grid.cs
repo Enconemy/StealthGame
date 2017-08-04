@@ -102,6 +102,29 @@ public class Grid : MonoBehaviour {
 		return neighbours;
 	}
 
+    // Returns the node at the given world coordinates.
+    public Node GetNodeAt(Vector3 worldPosition)
+    {
+        float extend = NodeSize / 2;
+
+        Node node = null;
+        for (int i = 0; i < Length; i++)
+        {
+            for (int j = 0; j < Width; j++)
+            {
+                Vector3 pos = GetNode(i, j).WorldPosition;
+                if (worldPosition.x < pos.x + extend && worldPosition.x > pos.x - extend && worldPosition.z < pos.z + extend && worldPosition.z > pos.z - extend)
+                {
+                    node = GetNode(i, j);
+                    goto finished;
+                }
+            }
+        }
+
+        finished:
+        return node;
+    }
+
 	// Update is called once per frame
 	private void Update () {
 		if (oldShowNodes != ShowNodes) {
@@ -122,7 +145,7 @@ public class Node
 {
 	public Vector2 GridPosition{ get; private set;}
 	public Vector3 WorldPosition{ get; private set;}
-	public bool Walkable { get; set;}
+	public bool IsWalkable { get; set;}
 	public int GCost { get; set;}
 	public int HCost { get; set;}
 	public int FCost { get{ return HCost + GCost; } }
@@ -132,7 +155,7 @@ public class Node
 	{
 		GridPosition = gridPosition;
 		WorldPosition = worldPosition;
-		Walkable = walkAble;
+		IsWalkable = walkAble;
 		Parent = null;
 	}
 }
