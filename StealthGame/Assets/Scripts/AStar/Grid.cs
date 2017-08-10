@@ -21,21 +21,24 @@ public class Grid : MonoBehaviour {
 		offset.x = -(Width * NodeSize) / 2;
 		offset.y = (Length * NodeSize) / 2;
 
-        System.Random r = new System.Random();
-        bool walkable = true;
-
         for (int i = 0; i < Width; i++) 
 		{
 			for (int j = 0; j < Length; j++) 
 			{
-                if (r.NextDouble() > 0.5)
-                    walkable = true;
-                else
-                    walkable = false;
-
-                nodes [i, j] = new Node(new Vector2(i,j), new Vector3(offset.x + i * NodeSize, 0.0f, offset.y - j * NodeSize), walkable);
+                nodes [i, j] = new Node(new Vector2(i,j), new Vector3(offset.x + i * NodeSize, 0.0f, offset.y - j * NodeSize), true);
 			}
 		}
+
+
+        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+        for(int i = 0; i < obstacles.Length; i++)
+        {
+            Transform t = obstacles[i].transform;
+            Vector3 pos = t.position;
+            Vector3 scale = t.localScale;
+            GetNodeAt(pos).IsWalkable = false;
+        }
+
 
 
 		visualNodes = new GameObject[Width, Length];
@@ -169,37 +172,3 @@ public class Node
 		Parent = null;
 	}
 }
-
-
-
-
-/*
- * if (x > 0 && y > 0) {
-			//Left Top
-			neighbours.Add(nodes[x - 1, y + 1 ]);
-		}
-		if (y > 0) {
-			//Top
-			neighbours.Add(nodes[x, y + 1]);
-		}
-		if (x < Width - 1 && y > 0) {
-			//Right Top
-			neighbours.Add(nodes[x + 1, y + 1]);
-		}
-		if (x < Width - 1) {
-			//Right
-			neighbours.Add(nodes[x + 1, y]);
-		}
-		if (x < Width - 1 && y < Length - 1 && y > 0) {
-			//Right Bottom
-			neighbours.Add(nodes[x + 1, y - 1]);
-		}
-		if (y < Length - 1) {
-			//Bottom
-			neighbours.Add(nodes[x, y - 1]);
-		}
-		if (x > 0 && y < Length - 1) {
-			//Left Bottom
-			neighbours.Add(nodes[x - 1, y - 1]);
-		}
-*/
