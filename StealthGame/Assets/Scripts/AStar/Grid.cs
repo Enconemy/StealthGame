@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public class Grid : MonoBehaviour {
 
 	private bool oldShowNodes = false;
 	private Node[,]nodes;
-	private GameObject[] visualNodes;
+	private GameObject[,] visualNodes;
 
 	// Use this for initialization
 	private void Start () {
@@ -22,20 +21,33 @@ public class Grid : MonoBehaviour {
 		offset.x = -(Width * NodeSize) / 2;
 		offset.y = (Length * NodeSize) / 2;
 
-		for (int i = 0; i < Width; i++) 
+        System.Random r = new System.Random();
+        bool walkable = true;
+
+        for (int i = 0; i < Width; i++) 
 		{
 			for (int j = 0; j < Length; j++) 
 			{
-				nodes [i, j] = new Node(new Vector2(i,j), new Vector3(offset.x + i * NodeSize, 0.0f, offset.y - j * NodeSize), true);
+                if (r.NextDouble() > 0.5)
+                    walkable = true;
+                else
+                    walkable = false;
+
+                nodes [i, j] = new Node(new Vector2(i,j), new Vector3(offset.x + i * NodeSize, 0.0f, offset.y - j * NodeSize), walkable);
 			}
 		}
 
 
-		visualNodes = new GameObject[Width * Length];
-		for (int i = 0; i < Width * Length; i++) {
-			visualNodes [i] = Instantiate (Prefab);
-			visualNodes [i].GetComponent<MeshRenderer> ().enabled = false;
-		
+		visualNodes = new GameObject[Width, Length];
+		for (int i = 0; i < Width; i++) {
+            for (int j = 0; j < Length; j++)
+            {
+                visualNodes[i, j] = Instantiate(Prefab);
+                visualNodes[i, j].GetComponent<MeshRenderer>().enabled = false;
+                if (nodes[i, j].IsWalkable == false)
+                    visualNodes[i, j].GetComponent<MeshRenderer>().material.color = Color.red;
+            }
+            
 		}
 		showNodes (ShowNodes);
 	}
@@ -46,15 +58,18 @@ public class Grid : MonoBehaviour {
 				for (int j = 0; j < Length; j++) { // Loops Node array nodes, second field.
 					//Vector2 position = nodes [i, j].WorldPosition;
 					//visualNodes [n].transform.position = new Vector3 (position.x, 0.0f, position.y);
-					visualNodes [n].transform.position = nodes[i, j].WorldPosition;
-					visualNodes [n].transform.localScale *= 0.9f;
-					visualNodes [n].GetComponent<MeshRenderer> ().enabled = true;
+					visualNodes [i, j].transform.position = nodes[i, j].WorldPosition;
+					visualNodes [i, j].transform.localScale *= 0.9f;
+					visualNodes [i, j].GetComponent<MeshRenderer> ().enabled = true;
 					n++;
 				}
 			}
 		} else {
-			for (int i = 0; i < Width * Length; i++) { // Loops GameObject array visualNodes
-					visualNodes [i].GetComponent<MeshRenderer> ().enabled = false;
+			for (int i = 0; i < Width; i++) { // Loops GameObject array visualNodes
+                for (int j = 0; j < Length; j++)
+                {
+                    visualNodes[i, j].GetComponent<MeshRenderer>().enabled = false;
+                }
 			}
 		}
 			
@@ -64,11 +79,6 @@ public class Grid : MonoBehaviour {
 		List<Node> neighbours = new List<Node>();
 		int x = (int) node.GridPosition.x;
 		int y = (int) node.GridPosition.y;
-		/*
-		if (x > 0 && x < Width - 1 && y > 0 && y < Length - 1) {
-			neighbours.Add(nodes[x - 1, y - 1]);
-		}
-		*/
 
 		if (x > 0 && y < Length - 1) {
 			//Left Top

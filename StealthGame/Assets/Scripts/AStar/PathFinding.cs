@@ -9,7 +9,6 @@ public class PathFinding : MonoBehaviour {
     private int distance = 10;
     private int distanceDiag = 14;
 
-    
     public List<Node> FindingPath(Node startNode, Node endNode)
     {
         List<Node> path = new List<Node>();
@@ -61,6 +60,7 @@ public class PathFinding : MonoBehaviour {
                         neigbours[i].HCost = manhattanDistance(neigbours[i], endNode);
                     }
 
+
                     if (openList.Contains(neigbours[i]))
                     {
                         if(gCost < neigbours[i].GCost)
@@ -91,33 +91,27 @@ public class PathFinding : MonoBehaviour {
         return path;
     }
     
-
-    
-        /*
+     
+        /*   
 	public List<Node> FindingPath(Node startNode, Node endNode){
-        Node currentNode = startNode;
-        currentNode.GCost = 0;
-        currentNode.HCost = manhattanDistance(startNode, endNode);
-        currentNode.Parent = null;
+       
 
-        openList.Add(currentNode);
+        startNode.GCost = 0;
+        startNode.HCost = manhattanDistance(startNode, endNode);
+        startNode.Parent = null;
+
+        openList.Add(startNode);
 
 
-		while(currentNode.GridPosition != endNode.GridPosition){
-            Debug.Log(openList.Count);
-            System.Console.WriteLine(openList.Count);
+		while(currentNode != endNode){
             if (openList.Count <= 0)
-            {
-                Debug.Log("BREAK");
-                System.Console.WriteLine("BREAK");
                 break;
-            }
+            closeList.Add(currentNode);
                 
-
             List<Node> neighbours = grid.GetNeighbours(currentNode);
             for (int i = 0; i < neighbours.Count; i++)
             {
-                if (neighbours[i].Walkable == false)
+                if (neighbours[i].IsWalkable == false)
                 {
                     closeList.Add(neighbours[i]);
                 }
@@ -125,7 +119,7 @@ public class PathFinding : MonoBehaviour {
                 {
                     if (closeList.Contains(neighbours[i]) == false)
                     {
-                        int gCost = currentNode.GCost + distance;
+                        int gCost = currentNode.GCost + getDistance(currentNode, neighbours[i]);
 
                         if (neighbours[i].GCost == neighbours[i].FCost)
                         {
@@ -147,8 +141,8 @@ public class PathFinding : MonoBehaviour {
                         }
                     }
                 }
-                closeList.Add(currentNode);
-                openList.Remove(currentNode);
+                //closeList.Add(currentNode);
+                //openList.Remove(currentNode);
             }
 
             // Searching new currentNode
@@ -163,21 +157,16 @@ public class PathFinding : MonoBehaviour {
                 }
             }
             currentNode = openList [index];
+            openList.RemoveAt(index);
         }
 
-
-        List<Node> path = new List<Node> ();
+        List<Node> path = new List<Node>();
         Node n = endNode;
-        path.Add (n);
-        while (n.Parent != null) {
-            if (path.Count > 200)
-            {
-                Debug.Log ("");
-            }
-            path.Add (n.Parent);
+        while (n != null)
+        {
+            path.Add(n);
+            n = path[path.Count - 1].Parent;
         }
-        openList = new List<Node>();
-        closeList = new List<Node> ();
 
         return path;
     }
