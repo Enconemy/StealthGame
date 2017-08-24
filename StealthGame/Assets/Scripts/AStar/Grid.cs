@@ -31,14 +31,51 @@ public class Grid : MonoBehaviour {
 
 
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-        for(int i = 0; i < obstacles.Length; i++)
+        Vector3 oScale;
+        Vector3 oPos, nPos;
+        Rect oRect, nRect;
+    
+        foreach(Node n in nodes)
         {
+            nPos = n.WorldPosition;
+            nRect = new Rect(nPos.x - NodeSize / 2, nPos.z - NodeSize / 2, NodeSize, NodeSize);
+            foreach (GameObject g in obstacles)
+            {
+                oPos = g.transform.position;
+                oScale = g.transform.localScale;
+                oRect = new Rect(oPos.x - oScale.x / 2, oPos.z - oScale.z / 2, oScale.x, oScale.z);
+                if(nRect.Overlaps(oRect))
+                  n.IsWalkable = false;
+            }
+        }
+        
+        
+        /*
+        for (int i = 0; i < obstacles.Length; i++)
+        {
+            Vector3 tmp;
             Transform t = obstacles[i].transform;
             Vector3 pos = t.position;
             Vector3 scale = t.localScale;
             GetNodeAt(pos).IsWalkable = false;
-        }
 
+            tmp = pos;
+            float x = scale.x / 2.0f;
+
+
+            tmp.x += x;
+            GetNodeAt(tmp).IsWalkable = false;
+
+            //if (scale.x - x > 0.0f)
+            //x++;
+
+            //for (int j = 0; j < x; j++)
+            //{
+            //    tmp.x += NodeSize;
+            //    GetNodeAt(tmp).IsWalkable = false;
+            //}
+        }
+        */
 
 
 		visualNodes = new GameObject[Width, Length];
