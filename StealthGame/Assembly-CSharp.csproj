@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\AStar\Grid.cs" />
-     <Compile Include="Assets\Scripts\AStar\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\AStar\PathFinding.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\Enemy\AttackState.cs" />
