@@ -30,6 +30,7 @@ public class Grid : MonoBehaviour {
 		}
 
 
+        // Checking if Node is blocked by an obstacle.
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         Vector3 oScale;
         Vector3 oPos, nPos;
@@ -48,34 +49,6 @@ public class Grid : MonoBehaviour {
                   n.IsWalkable = false;
             }
         }
-        
-        
-        /*
-        for (int i = 0; i < obstacles.Length; i++)
-        {
-            Vector3 tmp;
-            Transform t = obstacles[i].transform;
-            Vector3 pos = t.position;
-            Vector3 scale = t.localScale;
-            GetNodeAt(pos).IsWalkable = false;
-
-            tmp = pos;
-            float x = scale.x / 2.0f;
-
-
-            tmp.x += x;
-            GetNodeAt(tmp).IsWalkable = false;
-
-            //if (scale.x - x > 0.0f)
-            //x++;
-
-            //for (int j = 0; j < x; j++)
-            //{
-            //    tmp.x += NodeSize;
-            //    GetNodeAt(tmp).IsWalkable = false;
-            //}
-        }
-        */
 
 
 		visualNodes = new GameObject[Width, Length];
@@ -91,13 +64,12 @@ public class Grid : MonoBehaviour {
 		}
 		showNodes (ShowNodes);
 	}
-	private void showNodes(bool show) {
+
+    private void showNodes(bool show) {
 		if (show == true) {
 			int n = 0;
 			for (int i = 0; i < Width; i++) { // Loops Node array nodes, first field.
 				for (int j = 0; j < Length; j++) { // Loops Node array nodes, second field.
-					//Vector2 position = nodes [i, j].WorldPosition;
-					//visualNodes [n].transform.position = new Vector3 (position.x, 0.0f, position.y);
 					visualNodes [i, j].transform.position = nodes[i, j].WorldPosition;
 					visualNodes [i, j].transform.localScale *= 0.9f;
 					visualNodes [i, j].GetComponent<MeshRenderer> ().enabled = true;
@@ -162,10 +134,10 @@ public class Grid : MonoBehaviour {
         {
             for (int j = 0; j < Width; j++)
             {
-                Vector3 pos = GetNode(i, j).WorldPosition;
+                Vector3 pos = nodes[i, j].WorldPosition;
                 if (worldPosition.x < pos.x + extend && worldPosition.x > pos.x - extend && worldPosition.z < pos.z + extend && worldPosition.z > pos.z - extend)
                 {
-                    node = GetNode(i, j);
+                    node = nodes[i, j];
                     goto finished;
                 }
             }
@@ -181,12 +153,6 @@ public class Grid : MonoBehaviour {
 			showNodes (ShowNodes);
 		}
 		oldShowNodes = ShowNodes;
-	}
-
-	// Only for testing
-	public Node GetNode(int x, int y)
-	{
-		return nodes [x, y];
 	}
 }
 

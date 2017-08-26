@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ExitScene : MonoBehaviour {
 
-	public void Exit(){
-
+	public void Exit()
+    {
 		Application.Quit ();
-
 	}
 }

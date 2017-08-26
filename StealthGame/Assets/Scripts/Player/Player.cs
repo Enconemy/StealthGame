@@ -41,12 +41,6 @@ public class Player : MonoBehaviour {
 
 	void WalkTo(Vector3 targetPos)
 	{
-		if (targetPos.x < ((grid.Width * grid.NodeSize) / 2) - grid.NodeSize / 2 && targetPos.z < ((grid.Length * grid.NodeSize) / 2) - grid.NodeSize / 2) {
-			//Debug.Log ("Inside");
-		} else {
-			//Debug.Log ("Outside");
-		}
-
         Node target = grid.GetNodeAt(targetPos);
         Node start = grid.GetNodeAt(transform.position);
 

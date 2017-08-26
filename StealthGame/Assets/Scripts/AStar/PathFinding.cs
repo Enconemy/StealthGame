@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class PathFinding : MonoBehaviour {
+public class PathFinding : MonoBehaviour
+{
 
-	private List<Node> openList;
-	private List<Node> closeList;
-	private Grid grid;
+    private List<Node> openList;
+    private List<Node> closeList;
+    private Grid grid;
     private int distance = 10;
     private int distanceDiag = 14;
 
@@ -30,7 +31,7 @@ public class PathFinding : MonoBehaviour {
 
         int iterations = 0;
 
-        while(openList.Count > 0)
+        while (openList.Count > 0)
         {
             iterations++;
             // Get next current node.
@@ -46,7 +47,7 @@ public class PathFinding : MonoBehaviour {
             closeList.Add(currentNode);
 
             List<Node> neigbours = grid.GetNeighbours(currentNode);
-            for(int i = 0; i < neigbours.Count; i++)
+            for (int i = 0; i < neigbours.Count; i++)
             {
                 if (closeList.Contains(neigbours[i]))
                     continue;
@@ -69,7 +70,7 @@ public class PathFinding : MonoBehaviour {
 
                     if (openList.Contains(neigbours[i]))
                     {
-                        if(gCost < neigbours[i].GCost)
+                        if (gCost < neigbours[i].GCost)
                         {
                             neigbours[i].GCost = gCost;
                             neigbours[i].Parent = currentNode;
@@ -85,8 +86,6 @@ public class PathFinding : MonoBehaviour {
             }
         }
 
-
-        //path.Add(endNode);
         Node n = endNode;
         while (n != null)
         {
@@ -96,7 +95,7 @@ public class PathFinding : MonoBehaviour {
 
         return path;
     }
-    
+
 
     // Returns Node with the lowest f-cost of the openlist and deletes it.
     private Node getNextNode()
@@ -118,31 +117,27 @@ public class PathFinding : MonoBehaviour {
 
     // Returns estimated distance between 'start' and 'end'.
     private int manhattanDistance(Node start, Node end)
-	{
-		return Mathf.Abs ((int)start.GridPosition.x - (int)end.GridPosition.x) + Mathf.Abs ((int)start.GridPosition.y - (int)end.GridPosition.y);
-	}
+    {
+        return Mathf.Abs((int)start.GridPosition.x - (int)end.GridPosition.x) + Mathf.Abs((int)start.GridPosition.y - (int)end.GridPosition.y);
+    }
 
     // Returnes distances between node 'a' and 'b'.
     private int getDistance(Node a, Node b)
     {
-        int distanceX = (int)(a.GridPosition.x - b.GridPosition.x);
-        int distanceY = (int)(a.GridPosition.y - b.GridPosition.y);
+        float distanceX = a.GridPosition.x - b.GridPosition.x;
+        float distanceY = a.GridPosition.y - b.GridPosition.y;
 
-        if (distanceX == 0 || distanceY == 0)
+        if (distanceX == 0.0f || distanceY == 0.0f)
             return distance;
         else
             return distanceDiag;
     }
 
-	// Use this for initialization
-	void Start () {
-		grid = GameObject.Find ("A*").GetComponent<Grid> ();
-		openList = new List<Node> ();
-		closeList = new List<Node> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
+        grid = GameObject.Find("A*").GetComponent<Grid>();
+        openList = new List<Node>();
+        closeList = new List<Node>();
+    }
 }
