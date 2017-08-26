@@ -1,16 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemy\StateContext.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Menu\ExitScene.cs">
     <Files>
-      <File FileName="Assets\Scripts\Enemy\StateContext.cs" Line="61" Column="1" />
-      <File FileName="Assets\Scripts\Enemy\EnemyBehaviour.cs" Line="67" Column="45" />
-      <File FileName="Assets\Scripts\Enemy\AttackState.cs" Line="20" Column="1" />
-      <File FileName="Assets\Scripts\Enemy\iEnemyState.cs" Line="22" Column="46" />
-      <File FileName="Assets\Scripts\Enemy\SearchState.cs" Line="22" Column="14" />
-      <File FileName="Assets\Scripts\Player\Player.cs" Line="15" Column="32" />
-      <File FileName="Assets\Scripts\Enemy\patrolState.cs" Line="19" Column="3" />
-      <File FileName="Assets\Scripts\Enemy\DetectPlayer.cs" Line="44" Column="15" />
-      <File FileName="Assets\Scripts\Enemy\chaseState.cs" Line="17" Column="46" />
+      <File FileName="Assets\Scripts\Enemy\StateContext.cs" Line="56" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\EnemyBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\AttackState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\iEnemyState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\SearchState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Player\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\patrolState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\DetectPlayer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enemy\chaseState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Menu\LoadScene.cs" Line="12" Column="2" />
+      <File FileName="Assets\Scripts\Menu\ExitScene.cs" Line="10" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
