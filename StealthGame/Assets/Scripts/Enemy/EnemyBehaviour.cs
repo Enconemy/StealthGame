@@ -65,6 +65,10 @@ public class EnemyBehaviour : MonoBehaviour {
 	public void Chase(){
 		transform.forward = Vector3.Normalize(Player.transform.position - transform.position);
 		transform.position = Vector3.MoveTowards (transform.position, Player.transform.position, (Speed + ChaseBonus) * Time.deltaTime);
+
+
+
+
 	}
 
 	public void Attack(){

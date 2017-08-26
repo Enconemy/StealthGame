@@ -11,6 +11,12 @@ public class PathFinding : MonoBehaviour {
 
     public List<Node> FindingPath(Node startNode, Node endNode)
     {
+        // Checking if the destination is reachable
+        if (endNode.IsWalkable == false)
+        {
+            return null;
+        }
+
         List<Node> path = new List<Node>();
         openList = new List<Node>();
         closeList = new List<Node>();
@@ -91,86 +97,6 @@ public class PathFinding : MonoBehaviour {
         return path;
     }
     
-     
-        /*   
-	public List<Node> FindingPath(Node startNode, Node endNode){
-       
-
-        startNode.GCost = 0;
-        startNode.HCost = manhattanDistance(startNode, endNode);
-        startNode.Parent = null;
-
-        openList.Add(startNode);
-
-
-		while(currentNode != endNode){
-            if (openList.Count <= 0)
-                break;
-            closeList.Add(currentNode);
-                
-            List<Node> neighbours = grid.GetNeighbours(currentNode);
-            for (int i = 0; i < neighbours.Count; i++)
-            {
-                if (neighbours[i].IsWalkable == false)
-                {
-                    closeList.Add(neighbours[i]);
-                }
-                else
-                {
-                    if (closeList.Contains(neighbours[i]) == false)
-                    {
-                        int gCost = currentNode.GCost + getDistance(currentNode, neighbours[i]);
-
-                        if (neighbours[i].GCost == neighbours[i].FCost)
-                        {
-                            neighbours[i].HCost = manhattanDistance(neighbours[i], endNode);
-                        }
-                        if (openList.Contains(neighbours[i]) == true)
-                        {
-                            if (gCost < neighbours[i].GCost)
-                            {
-                                neighbours[i].GCost = gCost;
-                                neighbours[i].Parent = currentNode;
-                            }
-                        }
-                        else
-                        {
-                            neighbours[i].GCost = gCost;
-                            neighbours[i].Parent = currentNode;
-                            openList.Add(neighbours[i]);
-                        }
-                    }
-                }
-                //closeList.Add(currentNode);
-                //openList.Remove(currentNode);
-            }
-
-            // Searching new currentNode
-            int lowestFCost = openList[0].FCost;
-            int index = 0;
-            for (int i = 0; i < openList.Count; i++)
-            {
-                if (openList[i].FCost < lowestFCost)
-                {
-                    lowestFCost = openList[i].FCost;
-                    index = i;
-                }
-            }
-            currentNode = openList [index];
-            openList.RemoveAt(index);
-        }
-
-        List<Node> path = new List<Node>();
-        Node n = endNode;
-        while (n != null)
-        {
-            path.Add(n);
-            n = path[path.Count - 1].Parent;
-        }
-
-        return path;
-    }
-    */
 
     // Returns Node with the lowest f-cost of the openlist and deletes it.
     private Node getNextNode()

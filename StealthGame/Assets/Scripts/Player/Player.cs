@@ -53,10 +53,14 @@ public class Player : MonoBehaviour {
 		if (start != null && target != null)
         {
 			path = pathFinder.FindingPath (start, target);
+            if(path  == null)
+            {
+                Debug.LogWarning("A* WARNING: No path found.");
+            }
         }
         else
         {
-            Debug.LogError("A* ERROR: Target or start not on the Grid!");
+            Debug.LogWarning("A* WARNING: Target or start not on the Grid.");
         }
 	}
 }
