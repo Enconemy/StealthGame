@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyBehaviour : MonoBehaviour {
 
@@ -67,13 +68,12 @@ public class EnemyBehaviour : MonoBehaviour {
 		transform.position = Vector3.MoveTowards (transform.position, Player.transform.position, (Speed + ChaseBonus) * Time.deltaTime);
 
 
-
-
 	}
 
 	public void Attack(){
 		ArrestingCountdown += Time.deltaTime;
 		if (ArrestingCountdown >= ArrestingTime) {
+			SceneManager.LoadScene (2);
 			Debug.Log ("Arrested!");
 		}
 	}
